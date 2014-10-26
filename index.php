@@ -13,8 +13,8 @@
 <style>
 
 @import url(style.css?aea6f0a);
-@import url(nations.json);
-@import url(filename.mp3);
+/*@import url(nations1.json);
+@import url(filename.mp3);*/
 
 #chart {
   margin-left: -40px;
@@ -56,20 +56,12 @@ text {
 
 </style>
 
-<header>
-</header>
-
 <h1>One Minute Networth Story</h1>
-
 <audio controls="controls" autoplay="autoplay">
-	<source src="filename.mp3" type="audio/mp3" />
-	<!--source src='http://translate.google.com/translate_tts?tl=en&q=Hello+word' /-->
-	Your browser does not support the audio element.
+	<!-- source src="filename.mp3" type="audio/mp3" /-->
 </audio>
 
 <p id="chart"></p>
-
-<aside>Mouseover the year to move forward and backwards through time.</aside>
 
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script>
@@ -79,12 +71,12 @@ function x(d) { return d.income; }
 function y(d) { return d.lifeExpectancy; }
 function radius(d) { return d.population; }
 function color(d) { return d.region; }
-function key(d) { return d.AccountName; }
+function key(d) { return d.name; }
 
 // Chart dimensions.
 var margin = {top: 19.5, right: 19.5, bottom: 19.5, left: 39.5},
-    width = 500 - margin.right,
-    height = 300 - margin.top - margin.bottom;
+    width = 960 - margin.right,
+    height = 500 - margin.top - margin.bottom;
 
 // Various scales. These domains make assumptions of data, naturally.
 var xScale = d3.scale.log().domain([300, 1e5]).range([0, width]),
@@ -120,7 +112,7 @@ svg.append("text")
     .attr("text-anchor", "end")
     .attr("x", width)
     .attr("y", height - 6)
-    .text("income");
+    .text("cash outflow");
 
 // Add a y-axis label.
 svg.append("text")
@@ -129,7 +121,7 @@ svg.append("text")
     .attr("y", 6)
     .attr("dy", ".75em")
     .attr("transform", "rotate(-90)")
-    .text("networth");
+    .text("cash inflow");
 
 // Add the year label; the value is set on transition.
 var label = svg.append("text")
@@ -137,7 +129,7 @@ var label = svg.append("text")
     .attr("text-anchor", "end")
     .attr("y", height - 24)
     .attr("x", width)
-    .text(01-2013);
+    .text(1800);
 
 // Load the data.
 d3.json("nations.json", function(nations) {
@@ -158,7 +150,7 @@ d3.json("nations.json", function(nations) {
 
   // Add a title.
   dot.append("title")
-      .text(function(d) { return d.AccountName; });
+      .text(function(d) { return d.name; });
 
   // Add an overlay for the year label.
   var box = label.node().getBBox();
@@ -236,7 +228,7 @@ d3.json("nations.json", function(nations) {
   function interpolateData(year) {
     return nations.map(function(d) {
       return {
-        AccountName: d.AccountName,
+        name: d.name,
         region: d.region,
         income: interpolateValues(d.income, year),
         population: interpolateValues(d.population, year),
@@ -266,4 +258,5 @@ ga("create", "UA-48272912-3", "ocks.org");
 ga("send", "pageview");
 
 </script>
-<script async src="www.google-analytics.com/analytics.js"></script>
+<script async src="//www.google-analytics.com/analytics.js"></script>
+
