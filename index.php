@@ -5,8 +5,8 @@
 <?php
 
 		$file = "filename".".mp3";
-		$url = 'http://translate.google.com/translate_tts?tl=en&q=Hello+Aanya+Kavya';
-		$mp3 = file_get_contents($url);
+		//$url = 'http://translate.google.com/translate_tts?tl=en&q=Hello+Aanya+Kavya';
+		//$mp3 = file_get_contents($url);
 		file_put_contents($file, $mp3);
 ?>
 
@@ -71,7 +71,7 @@ function x(d) { return d.income; }
 function y(d) { return d.lifeExpectancy; }
 function radius(d) { return d.population; }
 function color(d) { return d.region; }
-function key(d) { return d.name; }
+function key(d) { return d.AccountName; }
 
 // Chart dimensions.
 var margin = {top: 19.5, right: 19.5, bottom: 19.5, left: 39.5},
@@ -214,7 +214,7 @@ d3.json("nations.json", function(nations) {
   // Tweens the entire chart by first tweening the year, and then the data.
   // For the interpolated data, the dots and label are redrawn.
   function tweenYear() {
-    var year = d3.interpolateNumber(1800, 2009);
+    var year = d3.interpolateNumber(01, 18);
     return function(t) { displayYear(year(t)); };
   }
 
@@ -238,13 +238,25 @@ d3.json("nations.json", function(nations) {
   }
 
   // Finds (and possibly interpolates) the value for the specified year.
-  function interpolateValues(values, year) {
-    var i = bisect.left(values, year, 0, values.length - 1),
-        a = values[i];
+  function interpolateValuesOld(values, year) {
+      var i = bisect.left(values, year, 0, values.length - 1),
+      a = values[i];
     if (i > 0) {
       var b = values[i - 1],
           t = (year - a[0]) / (b[0] - a[0]);
       return a[1] * (1 - t) + b[1] * t;
+    }
+    return a[1];
+  }
+
+
+  function interpolateValues(values, year) {
+      var i = bisect.left(values, year, 0, values.length - 1),
+      a = values[i];
+    if (i > 0) {
+      var b = values[i - 1];
+      console.log(a[b]);
+      return a[b];
     }
     return a[1];
   }
